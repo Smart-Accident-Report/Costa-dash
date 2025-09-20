@@ -15,7 +15,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus, Search, Filter, Eye, Edit, FileText, Calendar, MapPin, Users } from "lucide-react"
+import { Plus, Search, Filter, Eye, Edit, FileText, Calendar, MapPin, Users, Box } from "lucide-react"
+import Link from "next/link"
 
 // Mock data for constats
 const mockConstats = [
@@ -234,6 +235,11 @@ export default function ConstatsPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
+                        <Link href={`/constats/${constat.id}/3d-model`}>
+                          <Button variant="outline" size="sm">
+                            <Box className="h-4 w-4" />
+                          </Button>
+                        </Link>
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button variant="outline" size="sm" onClick={() => setSelectedConstat(constat)}>

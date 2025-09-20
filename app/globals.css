@@ -4,41 +4,84 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Lumi Brand Colors - Light/Dark hybrid base */
-  --background: #0f1419; /* Dark teal background */
-  --foreground: #ffffff; /* Pure white text */
-  --card: #253339; /* Slightly lighter card */
-  --card-foreground: #ffffff;
-  --popover: #1e2a32; /* Dark surface */
-  --popover-foreground: #ffffff;
+  /* Updated to light theme with Lumi Brand Colors */
+  --background: #ffffff; /* Pure white background */
+  --foreground: #0f1419; /* Dark text */
+  --card: #f8fafc; /* Light gray card */
+  --card-foreground: #0f1419;
+  --popover: #ffffff; /* White surface */
+  --popover-foreground: #0f1419;
 
   --primary: #00d084; /* Vibrant Lumi green */
-  --primary-foreground: #000000; /* Black for contrast */
-  --secondary: #00b872; /* Darker green variant */
-  --secondary-foreground: #ffffff;
+  --primary-foreground: #ffffff; /* White for contrast */
+  --secondary: #f1f5f9; /* Light gray variant */
+  --secondary-foreground: #0f1419;
 
-  --muted: #1a1a1a; /* Deep dark muted */
-  --muted-foreground: #8a9ba8; /* Medium gray */
+  --muted: #f1f5f9; /* Light muted */
+  --muted-foreground: #64748b; /* Medium gray */
 
   --accent: #00d084; /* Lumi green highlight */
-  --accent-foreground: #000000;
+  --accent-foreground: #ffffff;
 
-  --destructive: #ff4757; /* Red error */
+  --destructive: #ef4444; /* Red error */
   --destructive-foreground: #ffffff;
 
-  --border: #3a4a52; /* Subtle dark borders */
-  --input: #1e2a32; /* Dark input */
+  --border: #e2e8f0; /* Light borders */
+  --input: #ffffff; /* White input */
   --ring: #00d084; /* Green focus ring */
 
   --chart-1: #00d084; /* Success green */
-  --chart-2: #ffb142; /* Orange warning */
-  --chart-3: #ff4757; /* Error red */
-  --chart-4: #2ed5d9; /* Cyan info */
-  --chart-5: #4285f4; /* Google blue */
+  --chart-2: #f59e0b; /* Orange warning */
+  --chart-3: #ef4444; /* Error red */
+  --chart-4: #06b6d4; /* Cyan info */
+  --chart-5: #3b82f6; /* Blue */
 
   --radius: 0.75rem;
 
-  /* Sidebar */
+  /* Sidebar colors updated for light theme */
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #0f1419;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #0f1419;
+  --sidebar-accent: #00d084;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #00d084;
+}
+
+.dark {
+  /* Dark mode kept for toggle functionality */
+  --background: #0f1419; /* Dark teal background */
+  --foreground: #ffffff;
+  --card: #253339;
+  --card-foreground: #ffffff;
+  --popover: #1e2a32;
+  --popover-foreground: #ffffff;
+
+  --primary: #00d084;
+  --primary-foreground: #000000;
+  --secondary: #1e2a32;
+  --secondary-foreground: #ffffff;
+
+  --muted: #1a1a1a;
+  --muted-foreground: #8a9ba8;
+
+  --accent: #00d084;
+  --accent-foreground: #000000;
+
+  --destructive: #ff4757;
+  --destructive-foreground: #ffffff;
+
+  --border: #3a4a52;
+  --input: #1e2a32;
+  --ring: #00d084;
+
+  --chart-1: #00d084;
+  --chart-2: #ffb142;
+  --chart-3: #ff4757;
+  --chart-4: #2ed5d9;
+  --chart-5: #1877f2;
+
   --sidebar: #1e2a32;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #0f1419;
@@ -49,50 +92,9 @@
   --sidebar-ring: #00d084;
 }
 
-.dark {
-  --background: #000000; /* OLED black */
-  --foreground: #ffffff;
-  --card: #1a1a1a;
-  --card-foreground: #ffffff;
-  --popover: #1a1a1a;
-  --popover-foreground: #ffffff;
-
-  --primary: #00d084;
-  --primary-foreground: #000000;
-  --secondary: #00b872;
-  --secondary-foreground: #ffffff;
-
-  --muted: #1a1a1a;
-  --muted-foreground: #b0b0b0;
-
-  --accent: #00d084;
-  --accent-foreground: #000000;
-
-  --destructive: #ff4757;
-  --destructive-foreground: #ffffff;
-
-  --border: #3a4a52;
-  --input: #1a1a1a;
-  --ring: #00d084;
-
-  --chart-1: #00d084;
-  --chart-2: #ffb142;
-  --chart-3: #ff4757;
-  --chart-4: #2ed5d9;
-  --chart-5: #1877f2; /* Facebook blue */
-
-  --sidebar: #0f1419;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #000000;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #00d084;
-  --sidebar-accent-foreground: #000000;
-  --sidebar-border: #3a4a52;
-  --sidebar-ring: #00d084;
-}
-
 @theme inline {
-  --font-sans: 'Inter', ui-sans-serif, system-ui;
+  /* Updated font to use Inter as primary sans-serif */
+  --font-sans: "Inter", ui-sans-serif, system-ui;
   --font-mono: var(--font-geist-mono);
 
   --color-background: var(--background);
@@ -143,6 +145,7 @@
     @apply border-border outline-ring/50;
   }
   body {
+    /* Added font-sans class for Inter font support */
     @apply bg-background text-foreground font-sans;
   }
 }

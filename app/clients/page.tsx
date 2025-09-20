@@ -7,16 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Plus, Search, Filter, Eye, Edit, Phone, Mail, MapPin, Car, FileText, Calendar } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Plus, Search, Filter, Eye, Edit, Phone, Mail, MapPin, Car, Calendar, FileText } from "lucide-react"
 
 // Mock data for clients
 const mockClients = [
@@ -272,143 +264,9 @@ export default function ClientsPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="outline" size="sm" onClick={() => setSelectedClient(client)}>
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-4xl">
-                            <DialogHeader>
-                              <DialogTitle>Client Profile - {selectedClient?.name}</DialogTitle>
-                              <DialogDescription>Complete client information and accident history</DialogDescription>
-                            </DialogHeader>
-                            {selectedClient && (
-                              <Tabs defaultValue="profile" className="w-full">
-                                <TabsList className="grid w-full grid-cols-2">
-                                  <TabsTrigger value="profile">Profile</TabsTrigger>
-                                  <TabsTrigger value="history">Accident History</TabsTrigger>
-                                </TabsList>
-                                <TabsContent value="profile" className="space-y-4">
-                                  <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                      <label className="text-sm font-medium">Full Name</label>
-                                      <p className="text-sm text-muted-foreground">{selectedClient.name}</p>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Client ID</label>
-                                      <p className="text-sm text-muted-foreground">{selectedClient.id}</p>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Email</label>
-                                      <p className="text-sm text-muted-foreground">{selectedClient.email}</p>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Phone</label>
-                                      <p className="text-sm text-muted-foreground">{selectedClient.phone}</p>
-                                    </div>
-                                    <div className="col-span-2">
-                                      <label className="text-sm font-medium">Address</label>
-                                      <p className="text-sm text-muted-foreground">{selectedClient.address}</p>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Vehicle</label>
-                                      <p className="text-sm text-muted-foreground">
-                                        {selectedClient.carBrand} {selectedClient.carModel}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Policy Number</label>
-                                      <p className="text-sm text-muted-foreground">{selectedClient.policyNumber}</p>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Region</label>
-                                      <p className="text-sm text-muted-foreground">{selectedClient.region}</p>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Status</label>
-                                      <div className="mt-1">
-                                        <Badge
-                                          className={statusColors[selectedClient.status as keyof typeof statusColors]}
-                                        >
-                                          {selectedClient.status}
-                                        </Badge>
-                                      </div>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Join Date</label>
-                                      <p className="text-sm text-muted-foreground">{selectedClient.joinDate}</p>
-                                    </div>
-                                    <div>
-                                      <label className="text-sm font-medium">Total Accidents</label>
-                                      <p className="text-sm text-muted-foreground">
-                                        {selectedClient.accidentHistory.length} incidents
-                                      </p>
-                                    </div>
-                                  </div>
-                                </TabsContent>
-                                <TabsContent value="history" className="space-y-4">
-                                  <div className="rounded-md border">
-                                    <Table>
-                                      <TableHeader>
-                                        <TableRow>
-                                          <TableHead>Constat ID</TableHead>
-                                          <TableHead>Date</TableHead>
-                                          <TableHead>Location</TableHead>
-                                          <TableHead>Status</TableHead>
-                                        </TableRow>
-                                      </TableHeader>
-                                      <TableBody>
-                                        {selectedClient.accidentHistory.map((accident) => (
-                                          <TableRow key={accident.id}>
-                                            <TableCell className="font-medium">{accident.id}</TableCell>
-                                            <TableCell>
-                                              <div className="flex items-center gap-2">
-                                                <Calendar className="h-4 w-4 text-muted-foreground" />
-                                                {accident.date}
-                                              </div>
-                                            </TableCell>
-                                            <TableCell>
-                                              <div className="flex items-center gap-2">
-                                                <MapPin className="h-4 w-4 text-muted-foreground" />
-                                                {accident.location}
-                                              </div>
-                                            </TableCell>
-                                            <TableCell>
-                                              <Badge
-                                                className={
-                                                  accident.status === "pending"
-                                                    ? "bg-yellow-100 text-yellow-800"
-                                                    : accident.status === "validated"
-                                                      ? "bg-green-100 text-green-800"
-                                                      : accident.status === "draft"
-                                                        ? "bg-gray-100 text-gray-800"
-                                                        : "bg-blue-100 text-blue-800"
-                                                }
-                                              >
-                                                {accident.status}
-                                              </Badge>
-                                            </TableCell>
-                                          </TableRow>
-                                        ))}
-                                      </TableBody>
-                                    </Table>
-                                  </div>
-                                </TabsContent>
-                              </Tabs>
-                            )}
-                            <div className="flex gap-2 pt-4">
-                              <Button>
-                                <Edit className="h-4 w-4 mr-2" />
-                                Edit Client
-                              </Button>
-                              <Button variant="outline">
-                                <FileText className="h-4 w-4 mr-2" />
-                                Generate Report
-                              </Button>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
+                        <Button variant="outline" size="sm" onClick={() => setSelectedClient(client)}>
+                          <Eye className="h-4 w-4" />
+                        </Button>
                         <Button variant="outline" size="sm">
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -461,6 +319,117 @@ export default function ClientsPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Client Details Modal Dialog */}
+      <Dialog open={!!selectedClient} onOpenChange={() => setSelectedClient(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Client Details</DialogTitle>
+            <DialogDescription>Complete information for {selectedClient?.name}</DialogDescription>
+          </DialogHeader>
+          {selectedClient && (
+            <div className="space-y-6">
+              {/* Personal Information */}
+              <div className="grid gap-4 md:grid-cols-2">
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm">Personal Information</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Name:</span>
+                      <span>{selectedClient.name}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <span>{selectedClient.email}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <span>{selectedClient.phone}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm">{selectedClient.address}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm">Policy Information</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <FileText className="h-4 w-4 text-muted-foreground" />
+                      <span>{selectedClient.policyNumber}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <span>{selectedClient.region}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <span>Joined: {selectedClient.joinDate}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span>Status:</span>
+                      <Badge className={statusColors[selectedClient.status as keyof typeof statusColors]}>
+                        {selectedClient.status}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Vehicle Information */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm flex items-center gap-2">
+                    <Car className="h-4 w-4" />
+                    Vehicle Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center gap-4">
+                    <span className="font-medium">Vehicle:</span>
+                    <span>
+                      {selectedClient.carBrand} {selectedClient.carModel}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Accident History */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm">Accident History ({selectedClient.accidentHistory.length})</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {selectedClient.accidentHistory.length > 0 ? (
+                    <div className="space-y-2">
+                      {selectedClient.accidentHistory.map((accident) => (
+                        <div key={accident.id} className="flex items-center justify-between p-2 border rounded">
+                          <div>
+                            <span className="font-medium">{accident.id}</span>
+                            <span className="text-sm text-muted-foreground ml-2">{accident.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm">{accident.location}</span>
+                            <Badge variant="outline">{accident.status}</Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground">No accident history</p>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

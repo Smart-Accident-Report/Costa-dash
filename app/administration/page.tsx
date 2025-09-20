@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Switch } from "@/components/ui/switch"
+import { Textarea } from "@/components/ui/textarea"
 import {
   Dialog,
   DialogContent,
@@ -19,10 +20,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
   Users,
   Settings,
   Shield,
-  Plus,
   Edit,
   Trash2,
   Key,
@@ -32,78 +43,145 @@ import {
   Globe,
   Mail,
   Eye,
-  UserCheck,
+  Building2,
+  Send,
+  Copy,
+  UserPlus,
+  Crown,
+  Ban,
+  CheckCircle,
 } from "lucide-react"
 
-// Mock data for users
-const mockUsers = [
+const mockWorkers = [
   {
-    id: "USR-001",
+    id: "WRK-001",
     name: "Marie Dubois",
     email: "marie.dubois@costa-insurance.com",
-    role: "admin",
+    role: "Admin",
     department: "IT Administration",
     status: "active",
     lastLogin: "2024-01-15 14:30",
     createdAt: "2023-06-15",
+    agencyId: "AGY-001",
+    agencyName: "Costa Insurance HQ",
+    permissions: ["view_all", "edit_all", "delete_all", "manage_users", "admin_access"],
+    invitedBy: "System",
+    joinedDate: "2023-06-15",
   },
   {
-    id: "USR-002",
+    id: "WRK-002",
     name: "Pierre Leroy",
     email: "pierre.leroy@costa-insurance.com",
-    role: "agent",
+    role: "Manager",
     department: "Claims Processing",
     status: "active",
     lastLogin: "2024-01-15 09:15",
     createdAt: "2023-08-22",
+    agencyId: "AGY-001",
+    agencyName: "Costa Insurance HQ",
+    permissions: ["view_all", "edit_all", "manage_team"],
+    invitedBy: "Marie Dubois",
+    joinedDate: "2023-08-22",
   },
   {
-    id: "USR-003",
+    id: "WRK-003",
     name: "Sophie Martin",
     email: "sophie.martin@costa-insurance.com",
-    role: "reviewer",
+    role: "Editor",
     department: "Quality Assurance",
     status: "active",
     lastLogin: "2024-01-14 16:45",
     createdAt: "2023-09-10",
+    agencyId: "AGY-001",
+    agencyName: "Costa Insurance HQ",
+    permissions: ["view_all", "edit_assigned"],
+    invitedBy: "Pierre Leroy",
+    joinedDate: "2023-09-10",
   },
   {
-    id: "USR-004",
+    id: "WRK-004",
     name: "Jean Moreau",
     email: "jean.moreau@costa-insurance.com",
-    role: "agent",
+    role: "Viewer",
     department: "Customer Service",
-    status: "inactive",
+    status: "suspended",
     lastLogin: "2024-01-10 11:20",
     createdAt: "2023-11-05",
+    agencyId: "AGY-001",
+    agencyName: "Costa Insurance HQ",
+    permissions: ["view_assigned"],
+    invitedBy: "Marie Dubois",
+    joinedDate: "2023-11-05",
   },
   {
-    id: "USR-005",
+    id: "WRK-005",
     name: "Antoine Petit",
     email: "antoine.petit@costa-insurance.com",
-    role: "reviewer",
+    role: "Editor",
     department: "Risk Assessment",
-    status: "active",
-    lastLogin: "2024-01-15 13:00",
+    status: "pending",
+    lastLogin: "Never",
     createdAt: "2024-01-02",
+    agencyId: "AGY-001",
+    agencyName: "Costa Insurance HQ",
+    permissions: ["view_all", "edit_assigned"],
+    invitedBy: "Marie Dubois",
+    joinedDate: null,
   },
 ]
 
 const roleColors = {
-  admin: "bg-purple-100 text-purple-800",
-  agent: "bg-blue-100 text-blue-800",
-  reviewer: "bg-green-100 text-green-800",
+  Admin: "bg-purple-100 text-purple-800",
+  Manager: "bg-blue-100 text-blue-800",
+  Editor: "bg-green-100 text-green-800",
+  Viewer: "bg-gray-100 text-gray-800",
 }
 
 const statusColors = {
   active: "bg-green-100 text-green-800",
-  inactive: "bg-gray-100 text-gray-800",
+  pending: "bg-yellow-100 text-yellow-800",
   suspended: "bg-red-100 text-red-800",
+  inactive: "bg-gray-100 text-gray-800",
+}
+
+const mockAgency = {
+  id: "AGY-001",
+  name: "Costa Insurance HQ",
+  code: "COSTA-HQ-2024",
+  email: "admin@costa-insurance.com",
+  phone: "+33 1 23 45 67 89",
+  address: "123 Rue de la Paix, 75001 Paris, France",
+  website: "https://costa-insurance.com",
+  industry: "Insurance",
+  size: "51-200 employees",
+  createdAt: "2023-06-15",
+  subscription: "Premium",
+  maxWorkers: 50,
+  currentWorkers: 5,
 }
 
 export default function AdministrationPage() {
-  const [selectedUser, setSelectedUser] = useState<(typeof mockUsers)[0] | null>(null)
-  const [newUserRole, setNewUserRole] = useState("")
+  const [selectedWorker, setSelectedWorker] = useState<(typeof mockWorkers)[0] | null>(null)
+  const [newWorkerRole, setNewWorkerRole] = useState("")
+  const [inviteEmail, setInviteEmail] = useState("")
+  const [inviteRole, setInviteRole] = useState("")
+  const [inviteMessage, setInviteMessage] = useState("")
+
+  const handleInviteWorker = () => {
+    console.log("[v0] Inviting worker:", { inviteEmail, inviteRole, inviteMessage })
+    // Reset form
+    setInviteEmail("")
+    setInviteRole("")
+    setInviteMessage("")
+  }
+
+  const handleRoleChange = (workerId: string, newRole: string) => {
+    console.log("[v0] Changing role for worker:", workerId, "to:", newRole)
+  }
+
+  const handleSuspendWorker = (workerId: string) => {
+    console.log("[v0] Suspending worker:", workerId)
+  }
 
   return (
     <div className="space-y-6">
@@ -111,102 +189,111 @@ export default function AdministrationPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Administration</h2>
-          <p className="text-muted-foreground">Manage users, settings, and system configuration</p>
+          <p className="text-muted-foreground">Manage workers, agency settings, and system configuration</p>
         </div>
       </div>
 
-      <Tabs defaultValue="users" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="users">User Management</TabsTrigger>
+      <Tabs defaultValue="workers" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="workers">Worker Management</TabsTrigger>
+          <TabsTrigger value="agency">Agency Settings</TabsTrigger>
           <TabsTrigger value="settings">System Settings</TabsTrigger>
           <TabsTrigger value="integrations">Integrations</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="users" className="space-y-4">
-          {/* User Management Header */}
+        <TabsContent value="workers" className="space-y-4">
+          {/* Worker Management Header */}
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold">User Management</h3>
-              <p className="text-sm text-muted-foreground">Manage user accounts and permissions</p>
+              <h3 className="text-lg font-semibold">Worker Management</h3>
+              <p className="text-sm text-muted-foreground">
+                Manage agency workers and their permissions ({mockAgency.currentWorkers}/{mockAgency.maxWorkers}{" "}
+                workers)
+              </p>
             </div>
             <Dialog>
               <DialogTrigger asChild>
                 <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add User
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Invite Worker
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Add New User</DialogTitle>
-                  <DialogDescription>Create a new user account with appropriate permissions</DialogDescription>
+                  <DialogTitle>Invite New Worker</DialogTitle>
+                  <DialogDescription>Send an invitation to join your agency workspace</DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" placeholder="Enter first name" />
-                    </div>
-                    <div>
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" placeholder="Enter last name" />
-                    </div>
+                  <div>
+                    <Label htmlFor="inviteEmail">Email Address</Label>
+                    <Input
+                      id="inviteEmail"
+                      type="email"
+                      placeholder="worker@example.com"
+                      value={inviteEmail}
+                      onChange={(e) => setInviteEmail(e.target.value)}
+                    />
                   </div>
                   <div>
-                    <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" type="email" placeholder="user@costa-insurance.com" />
+                    <Label htmlFor="inviteRole">Role</Label>
+                    <Select value={inviteRole} onValueChange={setInviteRole}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Viewer">Viewer - View assigned reports only</SelectItem>
+                        <SelectItem value="Editor">Editor - Edit assigned reports</SelectItem>
+                        <SelectItem value="Manager">Manager - Manage team and all reports</SelectItem>
+                        <SelectItem value="Admin">Admin - Full agency access</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="role">Role</Label>
-                      <Select value={newUserRole} onValueChange={setNewUserRole}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="agent">Agent</SelectItem>
-                          <SelectItem value="reviewer">Reviewer</SelectItem>
-                          <SelectItem value="admin">Administrator</SelectItem>
-                        </SelectContent>
-                      </Select>
+                  <div>
+                    <Label htmlFor="inviteMessage">Personal Message (Optional)</Label>
+                    <Textarea
+                      id="inviteMessage"
+                      placeholder="Welcome to our team! We're excited to have you join us."
+                      value={inviteMessage}
+                      onChange={(e) => setInviteMessage(e.target.value)}
+                      rows={3}
+                    />
+                  </div>
+                  <div className="bg-muted p-3 rounded-lg">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Key className="h-4 w-4" />
+                      <span className="font-medium">Agency Code:</span>
+                      <code className="bg-background px-2 py-1 rounded text-xs">{mockAgency.code}</code>
+                      <Button variant="ghost" size="sm" onClick={() => navigator.clipboard.writeText(mockAgency.code)}>
+                        <Copy className="h-3 w-3" />
+                      </Button>
                     </div>
-                    <div>
-                      <Label htmlFor="department">Department</Label>
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select department" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="claims">Claims Processing</SelectItem>
-                          <SelectItem value="customer">Customer Service</SelectItem>
-                          <SelectItem value="quality">Quality Assurance</SelectItem>
-                          <SelectItem value="risk">Risk Assessment</SelectItem>
-                          <SelectItem value="it">IT Administration</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      The worker will need this code to join your agency
+                    </p>
                   </div>
                   <div className="flex gap-2 pt-4">
-                    <Button className="flex-1">Create User</Button>
-                    <Button variant="outline">Send Invitation</Button>
+                    <Button className="flex-1" onClick={handleInviteWorker}>
+                      <Send className="h-4 w-4 mr-2" />
+                      Send Invitation
+                    </Button>
                   </div>
                 </div>
               </DialogContent>
             </Dialog>
           </div>
 
-          {/* Users Table */}
+          {/* Workers Table */}
           <Card>
             <CardHeader>
-              <CardTitle>System Users ({mockUsers.length})</CardTitle>
-              <CardDescription>Manage user accounts, roles, and permissions</CardDescription>
+              <CardTitle>Agency Workers ({mockWorkers.length})</CardTitle>
+              <CardDescription>Manage worker accounts, roles, and permissions</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="rounded-md border">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>User</TableHead>
+                      <TableHead>Worker</TableHead>
                       <TableHead>Role</TableHead>
                       <TableHead>Department</TableHead>
                       <TableHead>Status</TableHead>
@@ -215,105 +302,158 @@ export default function AdministrationPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockUsers.map((user) => (
-                      <TableRow key={user.id}>
+                    {mockWorkers.map((worker) => (
+                      <TableRow key={worker.id}>
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
-                              <Users className="h-4 w-4" />
+                              {worker.role === "Admin" ? (
+                                <Crown className="h-4 w-4 text-purple-600" />
+                              ) : (
+                                <Users className="h-4 w-4" />
+                              )}
                             </div>
                             <div>
-                              <div className="font-medium">{user.name}</div>
-                              <div className="text-sm text-muted-foreground">{user.email}</div>
+                              <div className="font-medium">{worker.name}</div>
+                              <div className="text-sm text-muted-foreground">{worker.email}</div>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge className={roleColors[user.role as keyof typeof roleColors]}>{user.role}</Badge>
+                          <Badge className={roleColors[worker.role as keyof typeof roleColors]}>{worker.role}</Badge>
                         </TableCell>
                         <TableCell>
-                          <span className="text-sm">{user.department}</span>
+                          <span className="text-sm">{worker.department}</span>
                         </TableCell>
                         <TableCell>
-                          <Badge className={statusColors[user.status as keyof typeof statusColors]}>
-                            {user.status}
+                          <Badge className={statusColors[worker.status as keyof typeof statusColors]}>
+                            {worker.status}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <span className="text-sm">{user.lastLogin}</span>
+                          <span className="text-sm">{worker.lastLogin}</span>
                         </TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Dialog>
                               <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" onClick={() => setSelectedUser(user)}>
+                                <Button variant="outline" size="sm" onClick={() => setSelectedWorker(worker)}>
                                   <Eye className="h-4 w-4" />
                                 </Button>
                               </DialogTrigger>
-                              <DialogContent>
+                              <DialogContent className="max-w-2xl">
                                 <DialogHeader>
-                                  <DialogTitle>User Details - {selectedUser?.name}</DialogTitle>
-                                  <DialogDescription>View and manage user information</DialogDescription>
+                                  <DialogTitle>Worker Details - {selectedWorker?.name}</DialogTitle>
+                                  <DialogDescription>
+                                    View and manage worker information and permissions
+                                  </DialogDescription>
                                 </DialogHeader>
-                                {selectedUser && (
-                                  <div className="space-y-4">
+                                {selectedWorker && (
+                                  <div className="space-y-6">
                                     <div className="grid grid-cols-2 gap-4">
                                       <div>
-                                        <Label>User ID</Label>
-                                        <p className="text-sm text-muted-foreground">{selectedUser.id}</p>
+                                        <Label>Worker ID</Label>
+                                        <p className="text-sm text-muted-foreground">{selectedWorker.id}</p>
                                       </div>
                                       <div>
                                         <Label>Status</Label>
                                         <div className="mt-1">
                                           <Badge
-                                            className={statusColors[selectedUser.status as keyof typeof statusColors]}
+                                            className={statusColors[selectedWorker.status as keyof typeof statusColors]}
                                           >
-                                            {selectedUser.status}
+                                            {selectedWorker.status}
                                           </Badge>
                                         </div>
                                       </div>
                                       <div>
                                         <Label>Full Name</Label>
-                                        <p className="text-sm text-muted-foreground">{selectedUser.name}</p>
+                                        <p className="text-sm text-muted-foreground">{selectedWorker.name}</p>
                                       </div>
                                       <div>
                                         <Label>Email</Label>
-                                        <p className="text-sm text-muted-foreground">{selectedUser.email}</p>
+                                        <p className="text-sm text-muted-foreground">{selectedWorker.email}</p>
                                       </div>
                                       <div>
                                         <Label>Role</Label>
                                         <div className="mt-1">
-                                          <Badge className={roleColors[selectedUser.role as keyof typeof roleColors]}>
-                                            {selectedUser.role}
+                                          <Badge className={roleColors[selectedWorker.role as keyof typeof roleColors]}>
+                                            {selectedWorker.role}
                                           </Badge>
                                         </div>
                                       </div>
                                       <div>
                                         <Label>Department</Label>
-                                        <p className="text-sm text-muted-foreground">{selectedUser.department}</p>
+                                        <p className="text-sm text-muted-foreground">{selectedWorker.department}</p>
                                       </div>
                                       <div>
-                                        <Label>Created</Label>
-                                        <p className="text-sm text-muted-foreground">{selectedUser.createdAt}</p>
+                                        <Label>Invited By</Label>
+                                        <p className="text-sm text-muted-foreground">{selectedWorker.invitedBy}</p>
                                       </div>
                                       <div>
-                                        <Label>Last Login</Label>
-                                        <p className="text-sm text-muted-foreground">{selectedUser.lastLogin}</p>
+                                        <Label>Joined Date</Label>
+                                        <p className="text-sm text-muted-foreground">
+                                          {selectedWorker.joinedDate || "Pending"}
+                                        </p>
                                       </div>
                                     </div>
+
+                                    <div>
+                                      <Label>Permissions</Label>
+                                      <div className="flex flex-wrap gap-2 mt-2">
+                                        {selectedWorker.permissions.map((permission) => (
+                                          <Badge key={permission} variant="secondary" className="text-xs">
+                                            {permission.replace("_", " ")}
+                                          </Badge>
+                                        ))}
+                                      </div>
+                                    </div>
+
                                     <div className="flex gap-2 pt-4">
-                                      <Button>
-                                        <Edit className="h-4 w-4 mr-2" />
-                                        Edit User
-                                      </Button>
+                                      <Select onValueChange={(value) => handleRoleChange(selectedWorker.id, value)}>
+                                        <SelectTrigger className="w-40">
+                                          <SelectValue placeholder="Change Role" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          <SelectItem value="Viewer">Viewer</SelectItem>
+                                          <SelectItem value="Editor">Editor</SelectItem>
+                                          <SelectItem value="Manager">Manager</SelectItem>
+                                          <SelectItem value="Admin">Admin</SelectItem>
+                                        </SelectContent>
+                                      </Select>
                                       <Button variant="outline">
                                         <Key className="h-4 w-4 mr-2" />
                                         Reset Password
                                       </Button>
-                                      <Button variant="outline">
-                                        <UserCheck className="h-4 w-4 mr-2" />
-                                        Change Role
-                                      </Button>
+                                      {selectedWorker.status === "active" ? (
+                                        <AlertDialog>
+                                          <AlertDialogTrigger asChild>
+                                            <Button variant="outline">
+                                              <Ban className="h-4 w-4 mr-2" />
+                                              Suspend
+                                            </Button>
+                                          </AlertDialogTrigger>
+                                          <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                              <AlertDialogTitle>Suspend Worker</AlertDialogTitle>
+                                              <AlertDialogDescription>
+                                                Are you sure you want to suspend {selectedWorker.name}? They will lose
+                                                access to the system until reactivated.
+                                              </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                              <AlertDialogAction onClick={() => handleSuspendWorker(selectedWorker.id)}>
+                                                Suspend Worker
+                                              </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                          </AlertDialogContent>
+                                        </AlertDialog>
+                                      ) : (
+                                        <Button variant="outline">
+                                          <CheckCircle className="h-4 w-4 mr-2" />
+                                          Reactivate
+                                        </Button>
+                                      )}
                                     </div>
                                   </div>
                                 )}
@@ -322,9 +462,26 @@ export default function AdministrationPage() {
                             <Button variant="outline" size="sm">
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button variant="outline" size="sm">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button variant="outline" size="sm">
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Remove Worker</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Are you sure you want to remove this worker from your agency? This action cannot be
+                                    undone.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction>Remove Worker</AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -335,22 +492,34 @@ export default function AdministrationPage() {
             </CardContent>
           </Card>
 
-          {/* User Statistics */}
-          <div className="grid gap-4 md:grid-cols-4">
+          {/* Worker Statistics */}
+          <div className="grid gap-4 md:grid-cols-5">
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                <CardTitle className="text-sm font-medium">Total Workers</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{mockUsers.length}</div>
+                <div className="text-2xl font-bold">{mockWorkers.length}</div>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+                <CardTitle className="text-sm font-medium">Active Workers</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{mockUsers.filter((u) => u.status === "active").length}</div>
+                <div className="text-2xl font-bold text-green-600">
+                  {mockWorkers.filter((w) => w.status === "active").length}
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Pending Invites</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-yellow-600">
+                  {mockWorkers.filter((w) => w.status === "pending").length}
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -358,15 +527,166 @@ export default function AdministrationPage() {
                 <CardTitle className="text-sm font-medium">Administrators</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{mockUsers.filter((u) => u.role === "admin").length}</div>
+                <div className="text-2xl font-bold text-purple-600">
+                  {mockWorkers.filter((w) => w.role === "Admin").length}
+                </div>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Agents</CardTitle>
+                <CardTitle className="text-sm font-medium">Managers</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{mockUsers.filter((u) => u.role === "agent").length}</div>
+                <div className="text-2xl font-bold text-blue-600">
+                  {mockWorkers.filter((w) => w.role === "Manager").length}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="agency" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Building2 className="h-5 w-5" />
+                  Agency Information
+                </CardTitle>
+                <CardDescription>Manage your agency profile and settings</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Agency Name</Label>
+                    <Input defaultValue={mockAgency.name} />
+                  </div>
+                  <div>
+                    <Label>Agency Code</Label>
+                    <div className="flex gap-2">
+                      <Input value={mockAgency.code} readOnly />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => navigator.clipboard.writeText(mockAgency.code)}
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <Label>Email Address</Label>
+                  <Input defaultValue={mockAgency.email} />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Phone Number</Label>
+                    <Input defaultValue={mockAgency.phone} />
+                  </div>
+                  <div>
+                    <Label>Website</Label>
+                    <Input defaultValue={mockAgency.website} />
+                  </div>
+                </div>
+                <div>
+                  <Label>Address</Label>
+                  <Textarea defaultValue={mockAgency.address} rows={2} />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Industry</Label>
+                    <Select defaultValue={mockAgency.industry}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Insurance">Insurance</SelectItem>
+                        <SelectItem value="Legal">Legal Services</SelectItem>
+                        <SelectItem value="Automotive">Automotive</SelectItem>
+                        <SelectItem value="Healthcare">Healthcare</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label>Company Size</Label>
+                    <Select defaultValue={mockAgency.size}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1-10 employees">1-10 employees</SelectItem>
+                        <SelectItem value="11-50 employees">11-50 employees</SelectItem>
+                        <SelectItem value="51-200 employees">51-200 employees</SelectItem>
+                        <SelectItem value="200+ employees">200+ employees</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <Button className="w-full">Update Agency Information</Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Crown className="h-5 w-5" />
+                  Subscription & Limits
+                </CardTitle>
+                <CardDescription>Manage your subscription and usage limits</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                  <div>
+                    <div className="font-medium">{mockAgency.subscription} Plan</div>
+                    <div className="text-sm text-muted-foreground">Active since {mockAgency.createdAt}</div>
+                  </div>
+                  <Badge className="bg-green-100 text-green-800">Active</Badge>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <Label>Worker Limit</Label>
+                    <span className="text-sm text-muted-foreground">
+                      {mockAgency.currentWorkers} / {mockAgency.maxWorkers}
+                    </span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div
+                      className="bg-primary h-2 rounded-full"
+                      style={{ width: `${(mockAgency.currentWorkers / mockAgency.maxWorkers) * 100}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Storage Used</span>
+                    <span className="text-sm text-muted-foreground">2.4 GB / 10 GB</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div className="bg-blue-500 h-2 rounded-full" style={{ width: "24%" }} />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">API Calls (Monthly)</span>
+                    <span className="text-sm text-muted-foreground">1,247 / 10,000</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div className="bg-green-500 h-2 rounded-full" style={{ width: "12%" }} />
+                  </div>
+                </div>
+
+                <div className="pt-4 space-y-2">
+                  <Button variant="outline" className="w-full bg-transparent">
+                    Upgrade Plan
+                  </Button>
+                  <Button variant="ghost" className="w-full text-sm">
+                    View Billing History
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>

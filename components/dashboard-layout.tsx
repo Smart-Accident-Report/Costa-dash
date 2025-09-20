@@ -17,9 +17,10 @@ import {
   FileOutput,
   Settings,
   Menu,
-  Car,
+  Truck,
 } from "lucide-react"
 import { UserAccountDropdown } from "./user-account-dropdown"
+import Image from "next/image"
 
 const navigation = [
   {
@@ -46,6 +47,11 @@ const navigation = [
     name: "Claims",
     href: "/claims",
     icon: ClipboardList,
+  },
+  {
+    name: "Vehicles",
+    href: "/vehicles",
+    icon: Truck,
   },
   {
     name: "Analytics",
@@ -79,8 +85,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <SheetContent side="left" className="w-64 p-0">
           <div className="flex h-full flex-col bg-sidebar">
             <div className="flex h-16 items-center gap-2 px-6 border-b border-sidebar-border">
-              <Car className="h-8 w-8 text-sidebar-accent" />
-              <span className="text-xl font-bold text-sidebar-foreground">Costa</span>
+              <Image src="/costa-logo.png" alt="Costa Logo" width={32} height={32} className="h-8 w-8" />
+              <span className="text-xl font-bold text-sidebar-foreground">costa-dash</span>
             </div>
             <nav className="flex-1 space-y-1 p-4">
               {navigation.map((item) => {
@@ -111,8 +117,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-sidebar border-r border-sidebar-border">
           <div className="flex h-16 shrink-0 items-center gap-2 px-6">
-            <Car className="h-8 w-8 text-sidebar-accent" />
-            <span className="text-xl font-bold text-sidebar-foreground">Costa</span>
+            <Image src="/costa-logo.png" alt="Costa Logo" width={32} height={32} className="h-8 w-8" />
+            <span className="text-xl font-bold text-sidebar-foreground">costa-dash</span>
           </div>
           <nav className="flex flex-1 flex-col px-4">
             <ul role="list" className="flex flex-1 flex-col gap-y-1">
