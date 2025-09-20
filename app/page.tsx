@@ -80,10 +80,10 @@ export default function DashboardPage() {
           <CardContent>
             <div className="space-y-4">
               {[
-                { id: "CST-2024-001", date: "2024-01-15", location: "Paris 15e", status: "pending" },
-                { id: "CST-2024-002", date: "2024-01-14", location: "Lyon Centre", status: "validated" },
-                { id: "CST-2024-003", date: "2024-01-14", location: "Marseille", status: "draft" },
-                { id: "CST-2024-004", date: "2024-01-13", location: "Toulouse", status: "closed" },
+                { id: "CST-2024-001", date: "2024-01-15", location: "Alger Centre", status: "pending" },
+                { id: "CST-2024-002", date: "2024-01-14", location: "Oran Centre", status: "validated" },
+                { id: "CST-2024-003", date: "2024-01-14", location: "Constantine", status: "draft" },
+                { id: "CST-2024-004", date: "2024-01-13", location: "Annaba", status: "closed" },
               ].map((constat) => (
                 <div key={constat.id} className="flex items-center justify-between">
                   <div>

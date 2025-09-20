@@ -20,6 +20,7 @@ import {
   Car,
 } from "lucide-react"
 import { UserAccountDropdown } from "./user-account-dropdown"
+import { AccidentMap } from "./accident-map"
 
 const navigation = [
   {
@@ -102,6 +103,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   </Link>
                 )
               })}
+              
+              {/* Accident Map Component for Mobile */}
+              <div className="mt-4">
+                <AccidentMap />
+              </div>
             </nav>
           </div>
         </SheetContent>
@@ -136,6 +142,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 )
               })}
             </ul>
+            
+            {/* Accident Map Component */}
+            <div className="mt-4 px-2">
+              <AccidentMap />
+            </div>
           </nav>
         </div>
       </div>

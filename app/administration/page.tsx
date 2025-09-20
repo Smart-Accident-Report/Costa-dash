@@ -39,8 +39,8 @@ import {
 const mockUsers = [
   {
     id: "USR-001",
-    name: "Marie Dubois",
-    email: "marie.dubois@costa-insurance.com",
+    name: "Yasmine Boudjema",
+    email: "yasmine.boudjema@costa-insurance.com",
     role: "admin",
     department: "IT Administration",
     status: "active",
@@ -49,8 +49,8 @@ const mockUsers = [
   },
   {
     id: "USR-002",
-    name: "Pierre Leroy",
-    email: "pierre.leroy@costa-insurance.com",
+    name: "Tarek Meziane",
+    email: "tarek.meziane@costa-insurance.com",
     role: "agent",
     department: "Claims Processing",
     status: "active",
@@ -59,8 +59,8 @@ const mockUsers = [
   },
   {
     id: "USR-003",
-    name: "Sophie Martin",
-    email: "sophie.martin@costa-insurance.com",
+    name: "Lamine Cherif",
+    email: "lamine.cherif@costa-insurance.com",
     role: "reviewer",
     department: "Quality Assurance",
     status: "active",
@@ -69,8 +69,8 @@ const mockUsers = [
   },
   {
     id: "USR-004",
-    name: "Jean Moreau",
-    email: "jean.moreau@costa-insurance.com",
+    name: "Karim Saadi",
+    email: "karim.saadi@costa-insurance.com",
     role: "agent",
     department: "Customer Service",
     status: "inactive",
@@ -79,8 +79,8 @@ const mockUsers = [
   },
   {
     id: "USR-005",
-    name: "Antoine Petit",
-    email: "antoine.petit@costa-insurance.com",
+    name: "Nour El Houda",
+    email: "nour.elhouda@costa-insurance.com",
     role: "reviewer",
     department: "Risk Assessment",
     status: "active",
