@@ -21,77 +21,77 @@ import { Plus, Search, Filter, Eye, Edit, Shield, Calendar, User, AlertTriangle 
 const mockPolicies = [
   {
     id: "POL-2024-001",
-    clientName: "Jean Dupont",
+    clientName: "Amine Bensalem",
     clientId: "CLI-001",
     policyType: "Comprehensive",
     coverage: "All Risk",
-    premium: 1200,
+    premium: 156000,
     startDate: "2024-01-01",
     endDate: "2024-12-31",
     status: "active",
-    region: "Île-de-France",
-    vehicle: "Peugeot 308",
-    deductible: 500,
+    region: "Alger",
+    vehicle: "Hyundai Accent",
+    deductible: 65000,
     renewalDate: "2024-12-31",
   },
   {
     id: "POL-2024-002",
-    clientName: "Marie Martin",
+    clientName: "Houda Benali",
     clientId: "CLI-002",
     policyType: "Third Party Plus",
     coverage: "Liability + Theft",
-    premium: 800,
+    premium: 104000,
     startDate: "2024-02-15",
     endDate: "2025-02-14",
     status: "active",
-    region: "Auvergne-Rhône-Alpes",
-    vehicle: "Renault Clio",
-    deductible: 300,
+    region: "Oran",
+    vehicle: "Renault Symbol",
+    deductible: 39000,
     renewalDate: "2025-02-14",
   },
   {
     id: "POL-2024-003",
-    clientName: "Pierre Durand",
+    clientName: "Nassim Cherif",
     clientId: "CLI-003",
     policyType: "Third Party",
     coverage: "Liability Only",
-    premium: 600,
+    premium: 78000,
     startDate: "2023-12-10",
     endDate: "2024-12-09",
     status: "renewal_due",
-    region: "Provence-Alpes-Côte d'Azur",
-    vehicle: "Citroën C4",
-    deductible: 200,
+    region: "Constantine",
+    vehicle: "Peugeot 301",
+    deductible: 26000,
     renewalDate: "2024-12-09",
   },
   {
     id: "POL-2024-004",
-    clientName: "Sophie Leroy",
+    clientName: "Samira Khelifi",
     clientId: "CLI-004",
     policyType: "Comprehensive",
     coverage: "All Risk",
-    premium: 1400,
+    premium: 182000,
     startDate: "2024-01-05",
     endDate: "2025-01-04",
     status: "active",
-    region: "Occitanie",
-    vehicle: "Volkswagen Golf",
-    deductible: 600,
+    region: "Tizi Ouzou",
+    vehicle: "Kia Picanto",
+    deductible: 78000,
     renewalDate: "2025-01-04",
   },
   {
     id: "POL-2023-089",
-    clientName: "Antoine Bernard",
+    clientName: "Karim Aït Ali",
     clientId: "CLI-005",
     policyType: "Third Party Plus",
     coverage: "Liability + Fire",
-    premium: 900,
+    premium: 117000,
     startDate: "2023-09-18",
     endDate: "2024-09-17",
     status: "expired",
-    region: "Provence-Alpes-Côte d'Azur",
-    vehicle: "BMW Serie 3",
-    deductible: 400,
+    region: "Annaba",
+    vehicle: "Toyota Corolla",
+    deductible: 52000,
     renewalDate: "2024-09-17",
   },
 ]
@@ -236,8 +236,10 @@ export default function PoliciesPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="text-sm font-medium">€{policy.premium.toLocaleString()}</div>
-                      <div className="text-xs text-muted-foreground">Deductible: €{policy.deductible}</div>
+                      <div className="text-sm font-medium">{policy.premium.toLocaleString()} DZD</div>
+                      <div className="text-xs text-muted-foreground">
+                        Deductible: {policy.deductible.toLocaleString()} DZD
+                      </div>
                     </TableCell>
                     <TableCell>
                       <Badge className={statusColors[policy.status as keyof typeof statusColors]}>
@@ -309,12 +311,14 @@ export default function PoliciesPage() {
                                   <div>
                                     <label className="text-sm font-medium">Annual Premium</label>
                                     <p className="text-sm text-muted-foreground">
-                                      €{selectedPolicy.premium.toLocaleString()}
+                                      {selectedPolicy.premium.toLocaleString()} DZD
                                     </p>
                                   </div>
                                   <div>
                                     <label className="text-sm font-medium">Deductible</label>
-                                    <p className="text-sm text-muted-foreground">€{selectedPolicy.deductible}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                      {selectedPolicy.deductible.toLocaleString()} DZD
+                                    </p>
                                   </div>
                                   <div>
                                     <label className="text-sm font-medium">Policy Period</label>
@@ -384,7 +388,7 @@ export default function PoliciesPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              €{mockPolicies.reduce((acc, policy) => acc + policy.premium, 0).toLocaleString()}
+              {mockPolicies.reduce((acc, policy) => acc + policy.premium, 0).toLocaleString()} DZD
             </div>
           </CardContent>
         </Card>

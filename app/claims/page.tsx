@@ -15,89 +15,89 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus, Search, Filter, Eye, Edit, DollarSign, Calendar, User, FileText, CheckCircle, X } from "lucide-react"
+import { Plus, Search, Filter, Eye, Edit, Calendar, User, FileText, CheckCircle, X } from "lucide-react"
 
 // Mock data for claims
 const mockClaims = [
   {
     id: "CLM-2024-001",
     constatId: "CST-2024-001",
-    clientName: "Jean Dupont",
+    clientName: "Amine Bensalem",
     clientId: "CLI-001",
     policyId: "POL-2024-001",
     claimDate: "2024-01-16",
     incidentDate: "2024-01-15",
     status: "pending",
-    claimAmount: 3500,
+    claimAmount: 450000,
     approvedAmount: 0,
-    deductible: 500,
+    deductible: 50000,
     description: "Rear collision damage to vehicle",
-    adjusterName: "Marie Dubois",
-    estimatedRepairCost: 3000,
+    adjusterName: "Samira Khelifi",
+    estimatedRepairCost: 450000,
   },
   {
     id: "CLM-2024-002",
     constatId: "CST-2024-002",
-    clientName: "Marie Martin",
+    clientName: "Houda Benali",
     clientId: "CLI-002",
     policyId: "POL-2024-002",
     claimDate: "2024-01-15",
     incidentDate: "2024-01-14",
     status: "approved",
-    claimAmount: 2200,
-    approvedAmount: 1900,
-    deductible: 300,
+    claimAmount: 310000,
+    approvedAmount: 270000,
+    deductible: 40000,
     description: "Side impact damage during lane change",
-    adjusterName: "Pierre Leroy",
-    estimatedRepairCost: 2200,
+    adjusterName: "Khaled Mansouri",
+    estimatedRepairCost: 310000,
   },
   {
     id: "CLM-2024-003",
     constatId: "CST-2024-003",
-    clientName: "Antoine Bernard",
+    clientName: "Nassim Cherif",
     clientId: "CLI-005",
     policyId: "POL-2024-005",
     claimDate: "2024-01-15",
     incidentDate: "2024-01-14",
     status: "under_review",
-    claimAmount: 1800,
+    claimAmount: 240000,
     approvedAmount: 0,
-    deductible: 400,
+    deductible: 30000,
     description: "Damage from road obstacle",
-    adjusterName: "Sophie Martin",
-    estimatedRepairCost: 1400,
+    adjusterName: "Amel Touati",
+    estimatedRepairCost: 240000,
   },
   {
     id: "CLM-2023-089",
     constatId: "CST-2023-089",
-    clientName: "Pierre Durand",
+    clientName: "Samira Khelifi",
     clientId: "CLI-003",
     policyId: "POL-2024-003",
     claimDate: "2023-08-16",
     incidentDate: "2023-08-15",
     status: "paid",
-    claimAmount: 4500,
-    approvedAmount: 4300,
-    deductible: 200,
+    claimAmount: 600000,
+    approvedAmount: 570000,
+    deductible: 30000,
     description: "Front-end collision damage",
-    adjusterName: "Jean Moreau",
-    estimatedRepairCost: 4500,
+    adjusterName: "Riad Mekhloufi",
+    estimatedRepairCost: 600000,
   },
   {
     id: "CLM-2023-067",
     constatId: "CST-2023-067",
-    clientName: "Sophie Leroy",
+    clientName: "Karim Ait Ali",
     clientId: "CLI-004",
     policyId: "POL-2024-004",
     claimDate: "2023-12-10",
     incidentDate: "2023-12-09",
     status: "rejected",
-    claimAmount: 2800,
+    claimAmount: 380000,
     approvedAmount: 0,
-    deductible: 600,
+    deductible: 50000,
     description: "Damage not covered under policy terms",
-    adjusterName: "Antoine Petit",
-    estimatedRepairCost: 2800,
+    adjusterName: "Yasmine Boudiaf",
+    estimatedRepairCost: 380000,
   },
 ]
 
@@ -221,12 +221,11 @@ export default function ClaimsPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <DollarSign className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <div className="text-sm font-medium">€{claim.claimAmount.toLocaleString()}</div>
+                          <div className="text-sm font-medium">{claim.claimAmount.toLocaleString()} DZD</div>
                           {claim.approvedAmount > 0 && (
                             <div className="text-xs text-green-600">
-                              Approved: €{claim.approvedAmount.toLocaleString()}
+                              Approved: {claim.approvedAmount.toLocaleString()} DZD
                             </div>
                           )}
                         </div>
@@ -305,23 +304,25 @@ export default function ClaimsPage() {
                                   <div>
                                     <label className="text-sm font-medium">Claim Amount</label>
                                     <p className="text-sm text-muted-foreground">
-                                      €{selectedClaim.claimAmount.toLocaleString()}
+                                      {selectedClaim.claimAmount.toLocaleString()} DZD
                                     </p>
                                   </div>
                                   <div>
                                     <label className="text-sm font-medium">Approved Amount</label>
                                     <p className="text-sm text-muted-foreground">
-                                      €{selectedClaim.approvedAmount.toLocaleString()}
+                                      {selectedClaim.approvedAmount.toLocaleString()} DZD
                                     </p>
                                   </div>
                                   <div>
                                     <label className="text-sm font-medium">Deductible</label>
-                                    <p className="text-sm text-muted-foreground">€{selectedClaim.deductible}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                      {selectedClaim.deductible.toLocaleString()} DZD
+                                    </p>
                                   </div>
                                   <div>
                                     <label className="text-sm font-medium">Estimated Repair Cost</label>
                                     <p className="text-sm text-muted-foreground">
-                                      €{selectedClaim.estimatedRepairCost.toLocaleString()}
+                                      {selectedClaim.estimatedRepairCost.toLocaleString()} DZD
                                     </p>
                                   </div>
                                 </div>
@@ -401,7 +402,7 @@ export default function ClaimsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              €{mockClaims.reduce((acc, claim) => acc + claim.approvedAmount, 0).toLocaleString()}
+              {mockClaims.reduce((acc, claim) => acc + claim.approvedAmount, 0).toLocaleString()} DZD
             </div>
           </CardContent>
         </Card>

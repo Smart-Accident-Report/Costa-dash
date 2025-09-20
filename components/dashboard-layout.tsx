@@ -17,7 +17,6 @@ import {
   FileOutput,
   Settings,
   Menu,
-  Truck,
 } from "lucide-react"
 import { UserAccountDropdown } from "./user-account-dropdown"
 import Image from "next/image"
@@ -47,11 +46,6 @@ const navigation = [
     name: "Claims",
     href: "/claims",
     icon: ClipboardList,
-  },
-  {
-    name: "Vehicles",
-    href: "/vehicles",
-    icon: Truck,
   },
   {
     name: "Analytics",
